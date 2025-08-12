@@ -1,7 +1,7 @@
-/**
+/*
 * @license Apache-2.0
 *
-* Copyright (c) 2018 The Stdlib Authors.
+* Copyright (c) 2019 The Stdlib Authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,20 +16,27 @@
 * limitations under the License.
 */
 
-'use strict';
+// TypeScript Version: 4.1
 
-// MODULES //
+/// <reference types="https://cdn.jsdelivr.net/gh/stdlib-js/types@esm/index.d.ts"/>
 
-var ln = require( '@stdlib/math-base-special-ln' );
-var exp = require( '@stdlib/math-base-special-exp' );
-
-
-// MAIN //
+/**
+* If provided a value, returns an updated geometric mean; otherwise, returns the current geometric mean.
+*
+* ## Notes
+*
+* -   If provided `NaN` or a value which, when used in computations, results in `NaN`, the accumulated value is `NaN` for all future invocations.
+* -   If provided a negative value, the accumulated value is `NaN` for all future invocations.
+*
+* @param x - value
+* @returns geometric mean
+*/
+type accumulator = ( x?: number ) => number | null;
 
 /**
 * Returns an accumulator function which incrementally computes a geometric mean.
 *
-* @returns {Function} accumulator function
+* @returns accumulator function
 *
 * @example
 * var accumulator = incrgmean();
@@ -46,39 +53,9 @@ var exp = require( '@stdlib/math-base-special-exp' );
 * v = accumulator();
 * // returns ~3.16
 */
-function incrgmean() {
-	var sum;
-	var N;
-	var v;
-
-	sum = 0.0;
-	N = 0;
-	v = 1;
-
-	return accumulator;
-
-	/**
-	* If provided a value, the accumulator function returns an updated geometric mean. If not provided a value, the accumulator function returns the current geometric mean.
-	*
-	* @private
-	* @param {number} [x] - new value
-	* @returns {(number|null)} geometric mean or null
-	*/
-	function accumulator( x ) {
-		if ( arguments.length === 0 ) {
-			if ( N === 0 ) {
-				return null;
-			}
-			return v;
-		}
-		N += 1;
-		sum += ln( x );
-		v = exp( sum/N );
-		return v;
-	}
-}
+declare function incrgmean(): accumulator;
 
 
 // EXPORTS //
 
-module.exports = incrgmean;
+export = incrgmean;
